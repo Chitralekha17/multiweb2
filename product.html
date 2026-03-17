@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Product — STRYDE</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.pd-layout{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:80vh;}
+.pd-gallery{position:sticky;top:80px;height:calc(100vh - 80px);display:flex;flex-direction:column;padding:40px;}
+.pd-main-img{flex:1;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16rem;border:1px solid var(--border);margin-bottom:12px;position:relative;overflow:hidden;}
+.pd-main-img .glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(232,255,0,.1),transparent);pointer-events:none;}
+.pd-thumbs{display:flex;gap:8px;}
+.pd-thumb{width:72px;height:72px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:2.2rem;cursor:none;transition:border-color .2s;}
+.pd-thumb:hover,.pd-thumb.active{border-color:var(--accent);}
+.pd-info{padding:60px 48px 80px;border-left:1px solid var(--border);overflow-y:auto;}
+.pd-cat{font-family:var(--font-c);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.pd-name{font-family:var(--font-d);font-size:clamp(2.8rem,4vw,4.5rem);line-height:.9;letter-spacing:.02em;margin-bottom:14px;}
+.pd-rating{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+.pd-stars{color:var(--accent);letter-spacing:2px;}
+.pd-revcount{font-size:.82rem;color:var(--muted);}
+.pd-price-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+.pd-price{font-family:var(--font-d);font-size:2.4rem;}
+.pd-old{font-size:1.1rem;color:var(--muted);text-decoration:line-through;}
+.pd-save{font-family:var(--font-c);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;background:var(--accent2);color:#fff;font-weight:700;}
+.pd-divider{height:1px;background:var(--border);margin:24px 0;}
+.pd-label{font-family:var(--font-c);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;color:var(--text);}
+.pd-colors{display:flex;gap:10px;margin-bottom:28px;}
+.pd-col{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:none;transition:border-color .2s;}
+.pd-col:hover,.pd-col.active{border-color:var(--accent);}
+.pd-sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.sz{width:58px;height:46px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--font-c);font-size:.82rem;letter-spacing:.06em;transition:all .2s;}
+.sz:hover,.sz.active{background:var(--accent);color:#000;border-color:var(--accent);}
+.sz.oos{opacity:.3;cursor:not-allowed;text-decoration:line-through;}
+.size-guide{font-family:var(--font-c);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);background:none;border:none;text-decoration:underline;margin-bottom:28px;transition:color .2s;}
+.size-guide:hover{color:var(--accent);}
+.pd-qty-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.pd-qty{display:flex;align-items:center;border:1px solid var(--border);}
+.pd-qty button{width:44px;height:46px;background:none;border:none;color:var(--text);font-size:1.1rem;transition:background .2s;}
+.pd-qty button:hover{background:var(--surface2);}
+.pd-qty span{padding:0 16px;font-family:var(--font-c);font-size:1rem;min-width:40px;text-align:center;}
+.pd-add{flex:1;height:46px;background:var(--accent);color:#000;border:2px solid var(--accent);font-family:var(--font-c);font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;transition:all .2s;}
+.pd-add:hover{background:transparent;color:var(--accent);}
+.pd-wish{height:46px;width:46px;background:none;border:1px solid var(--border);color:var(--text);font-size:1rem;transition:all .2s;}
+.pd-wish:hover,.pd-wish.active{background:var(--accent2);border-color:var(--accent2);color:#fff;}
+.pd-desc{font-size:.92rem;line-height:1.8;color:var(--muted);margin-bottom:28px;}
+.pd-features{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.pd-feat{display:flex;align-items:center;gap:12px;font-size:.88rem;color:var(--muted);}
+.pd-feat::before{content:'✓';color:var(--accent);font-weight:700;}
+.pd-tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border);}
+.pd-tab{font-family:var(--font-c);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;padding:12px 24px;background:none;border:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;}
+.pd-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.pd-tab-content{display:none;}
+.pd-tab-content.active{display:block;}
+/* RELATED */
+#related{padding:80px 48px;}
+.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+@media(max-width:900px){.pd-layout{grid-template-columns:1fr;}.pd-gallery{position:relative;height:auto;padding:20px;}.pd-info{padding:20px;border-left:none;border-top:1px solid var(--border);}#related{padding:60px 20px;}.related-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curR"></div>
+<div class="cart-mask" id="cmask" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cdrawer">
+  <div class="cd-head"><span class="cd-title">Cart (<span id="cdCount">0</span>)</span><button class="cd-close" onclick="closeCart()">✕</button></div>
+  <div class="cd-items" id="cdItems"></div>
+  <div class="cd-foot" id="cdFoot" style="display:none">
+    <div class="cd-total-row"><span class="cd-total-label">Total</span><span class="cd-total-val" id="cdTotal">$0</span></div>
+    <button class="cd-checkout" onclick="location.href='checkout.html'">Checkout →</button>
+    <button class="cd-continue" onclick="closeCart()">Continue Shopping</button>
+  </div>
+</div>
+
+<nav class="g-nav">
+  <a href="index.html" class="g-nav-logo">STRY<span>D</span>E</a>
+  <ul class="g-nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html?cat=Running">Running</a></li>
+    <li><a href="shop.html?sale=1">Sale</a></li>
+  </ul>
+  <div class="g-nav-right">
+    <button class="g-nav-icon" onclick="location.href='wishlist.html'">♡</button>
+    <button class="g-nav-icon" onclick="openCart()" style="position:relative">🛒<span class="cart-badge" id="cb1">0</span></button>
+    <button class="g-nav-cta" onclick="location.href='shop.html'">Shop Now</button>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div style="padding:100px 48px 0;display:flex;gap:10px;align-items:center;font-family:var(--font-c);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">
+  <a href="index.html" style="color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Home</a>
+  <span>→</span>
+  <a href="shop.html" style="color:var(--muted);transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">Shop</a>
+  <span>→</span>
+  <span id="bcName" style="color:var(--text);">Product</span>
+</div>
+
+<!-- PRODUCT LAYOUT -->
+<div class="pd-layout" style="margin-top:24px;">
+  <div class="pd-gallery">
+    <div class="pd-main-img">
+      <div class="glow"></div>
+      <div id="mainEmoji" style="animation:float 4s ease-in-out infinite;filter:drop-shadow(0 16px 48px rgba(232,255,0,.18));">👟</div>
+    </div>
+    <div class="pd-thumbs" id="thumbs"></div>
+  </div>
+  <div class="pd-info" id="pdInfo">Loading…</div>
+</div>
+
+<!-- RELATED -->
+<section id="related">
+  <div class="sec-hdr" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;">
+    <div><p class="sec-label">You May Also Like</p><h2 class="sec-title">RELATED<br>PRODUCTS</h2></div>
+    <a href="shop.html" class="view-all" style="font-family:var(--font-c);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color .2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">View All →</a>
+  </div>
+  <div class="related-grid" id="relGrid"></div>
+</section>
+
+<footer class="g-footer">
+  <div class="g-footer-top">
+    <div><a href="index.html" class="g-footer-logo">STRY<span>D</span>E</a><p class="g-footer-tagline">Built for those who move with purpose.</p></div>
+    <div><p class="g-fcol-title">Shop</p><ul class="g-fcol-links"><li><a href="shop.html">All Products</a></li><li><a href="shop.html?sale=1">Sale</a></li></ul></div>
+    <div><p class="g-fcol-title">Help</p><ul class="g-fcol-links"><li><a href="#">Size Guide</a></li><li><a href="#">Returns</a></li></ul></div>
+    <div><p class="g-fcol-title">Company</p><ul class="g-fcol-links"><li><a href="#">About</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="g-footer-bottom"><p class="g-copy">© 2026 STRYDE.</p></div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+let product, selectedSize=null, qty=1;
+
+function loadProduct(){
+  const id = parseInt(new URLSearchParams(location.search).get('id'))||1;
+  product = PRODUCTS.find(p=>p.id===id)||PRODUCTS[0];
+  document.title = product.name + ' — STRYDE';
+  document.getElementById('bcName').textContent = product.name;
+  document.getElementById('mainEmoji').textContent = product.emoji;
+
+  // Thumbs (same emoji, 4 views)
+  document.getElementById('thumbs').innerHTML = [product.emoji,product.emoji,product.emoji,product.emoji].map((e,i) =>
+    `<div class="pd-thumb ${i===0?'active':''}" onclick="setThumb(this)">${e}</div>`
+  ).join('');
+
+  const save = product.oldPrice ? Math.round((1 - product.price/product.oldPrice)*100) : 0;
+
+  document.getElementById('pdInfo').innerHTML = `
+    <p class="pd-cat">${product.category}</p>
+    <h1 class="pd-name">${product.name}</h1>
+    <div class="pd-rating">
+      <span class="pd-stars">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5-Math.round(product.rating))}</span>
+      <span class="pd-revcount">${product.rating} · ${product.reviews} reviews</span>
+    </div>
+    <div class="pd-price-row">
+      ${product.oldPrice?`<span class="pd-old">$${product.oldPrice}</span>`:''}
+      <span class="pd-price">$${product.price}</span>
+      ${save?`<span class="pd-save">Save ${save}%</span>`:''}
+    </div>
+    <div class="pd-divider"></div>
+
+    <p class="pd-label">Color</p>
+    <div class="pd-colors">
+      ${product.colors.map((c,i)=>`<div class="pd-col ${i===0?'active':''}" style="background:${c}" onclick="selColor(this)" title="${c}"></div>`).join('')}
+    </div>
+
+    <p class="pd-label">Size — <span id="selSzLabel" style="color:var(--muted);text-transform:none;letter-spacing:0;font-family:var(--font-b);">Not selected</span></p>
+    <div class="pd-sizes">
+      ${product.sizes.map(s=>`<button class="sz" onclick="selSz(${s},this)">UK ${s}</button>`).join('')}
+    </div>
+    <button class="size-guide" onclick="showToast('Size guide coming soon!')">📏 Size Guide</button>
+
+    <div class="pd-qty-row">
+      <div class="pd-qty">
+        <button onclick="changeQty(-1)">−</button>
+        <span id="qtyDisp">1</span>
+        <button onclick="changeQty(1)">+</button>
+      </div>
+      <button class="pd-add" onclick="addProduct()">Add to Cart</button>
+      <button class="pd-wish ${STORE.isWishlisted(product.id)?'active':''}" id="wishBtn" onclick="toggleWish()">♡</button>
+    </div>
+
+    <div class="pd-divider"></div>
+
+    <div class="pd-tabs">
+      <button class="pd-tab active" onclick="switchTab(this,'desc')">Description</button>
+      <button class="pd-tab" onclick="switchTab(this,'features')">Features</button>
+      <button class="pd-tab" onclick="switchTab(this,'shipping')">Shipping</button>
+    </div>
+
+    <div id="tab-desc" class="pd-tab-content active">
+      <p class="pd-desc">${product.desc}</p>
+    </div>
+    <div id="tab-features" class="pd-tab-content">
+      <div class="pd-features">
+        <div class="pd-feat">Premium breathable mesh upper</div>
+        <div class="pd-feat">Responsive foam midsole</div>
+        <div class="pd-feat">Durable rubber outsole</div>
+        <div class="pd-feat">Reinforced heel counter</div>
+        <div class="pd-feat">Reflective branding details</div>
+      </div>
+    </div>
+    <div id="tab-shipping" class="pd-tab-content">
+      <div class="pd-features">
+        <div class="pd-feat">Free shipping on orders over $100</div>
+        <div class="pd-feat">Standard delivery: 3–5 business days</div>
+        <div class="pd-feat">Express delivery: 1–2 business days</div>
+        <div class="pd-feat">Free returns within 30 days</div>
+      </div>
+    </div>
+  `;
+
+  renderRelated();
+}
+
+function setThumb(el){ document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
+function selColor(el){ document.querySelectorAll('.pd-col').forEach(c=>c.classList.remove('active')); el.classList.add('active'); }
+function selSz(s,el){
+  selectedSize=s;
+  document.querySelectorAll('.sz').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('selSzLabel').textContent='UK '+s;
+}
+function changeQty(d){ qty=Math.max(1,qty+d); document.getElementById('qtyDisp').textContent=qty; }
+function addProduct(){
+  if(!selectedSize){ showToast('Please select a size!','error'); return; }
+  for(let i=0;i<qty;i++) STORE.addToCart(product.id,'UK '+selectedSize);
+  renderCart(); openCart();
+  showToast(`${product.name} added to cart! 👟`);
+}
+function toggleWish(){
+  STORE.toggleWishlist(product.id);
+  const btn=document.getElementById('wishBtn');
+  btn.classList.toggle('active');
+  showToast(STORE.isWishlisted(product.id)?'Added to wishlist ♡':'Removed from wishlist');
+}
+function switchTab(el, id){
+  document.querySelectorAll('.pd-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pd-tab-content').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+function renderRelated(){
+  const related = PRODUCTS.filter(p=>p.id!==product.id&&p.category===product.category).slice(0,4);
+  document.getElementById('relGrid').innerHTML = related.map(p => `
+    <div class="p-card reveal">
+      <div class="p-img-wrap"><div class="p-img">${p.emoji}</div></div>
+      ${p.tag?`<span class="p-tag tag-${p.tag}">${p.tag==='new'?'New':p.tag==='hot'?'🔥 Hot':'Sale'}</span>`:''}
+      <div class="p-overlay">
+        <a href="product.html?id=${p.id}" style="font-family:var(--font-c);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;padding:12px 26px;background:var(--accent);color:#000;font-weight:700;">View Product</a>
+      </div>
+      <div class="p-info">
+        <p class="p-cat">${p.category}</p>
+        <p class="p-name"><a href="product.html?id=${p.id}" style="color:inherit;">${p.name}</a></p>
+        <div class="p-footer"><div class="p-price">$${p.price}</div></div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.reveal').forEach(el=>{
+    const obs=new IntersectionObserver(([e])=>{if(e.isIntersecting){e.target.classList.add('visible');obs.disconnect();}},{threshold:.05});
+    obs.observe(el);
+  });
+}
+
+// CART
+function openCart(){ document.getElementById('cdrawer').classList.add('open'); document.getElementById('cmask').classList.add('open'); renderCart(); }
+function closeCart(){ document.getElementById('cdrawer').classList.remove('open'); document.getElementById('cmask').classList.remove('open'); }
+function renderCart(){
+  const items=STORE.cart,el=document.getElementById('cdItems'),foot=document.getElementById('cdFoot');
+  document.getElementById('cdCount').textContent=STORE.cartCount();
+  document.getElementById('cdTotal').textContent='$'+STORE.cartTotal().toLocaleString();
+  updateCartBadge();
+  if(!items.length){ el.innerHTML='<div class="cd-empty"><div class="cd-empty-icon">👟</div><p>Cart is empty</p></div>'; foot.style.display='none'; return; }
+  foot.style.display='block';
+  el.innerHTML=items.map(i=>`<div class="cd-item"><div class="cd-item-img">${i.emoji}</div><div class="cd-item-info"><p class="cd-item-name">${i.name}</p><p class="cd-item-meta">Size: ${i.size}</p><div class="cd-item-row"><span class="cd-item-price">$${i.price*i.qty}</span><div class="cd-qty"><button onclick="qtyChange('${i.key}',-1)">−</button><span>${i.qty}</span><button onclick="qtyChange('${i.key}',1)">+</button></div></div><button class="cd-remove" onclick="removeItem('${i.key}')">Remove</button></div></div>`).join('');
+}
+function qtyChange(k,d){ STORE.updateQty(k,d); renderCart(); }
+function removeItem(k){ STORE.removeFromCart(k); renderCart(); }
+
+// CURSOR
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.addEventListener('mouseover',e=>{if(e.target.matches('a,button,.p-card'))curR.classList.add('hov');else curR.classList.remove('hov');});
+
+loadProduct();
+updateCartBadge();
+</script>
+</body>
+</html>
