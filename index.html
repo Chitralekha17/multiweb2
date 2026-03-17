@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>STRYDE — Premium Footwear</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+/* ── HERO ── */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:140px 48px 80px;position:relative;z-index:2;}
+.hero-label{font-family:var(--font-c);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.hero-label::before{content:'';width:36px;height:1px;background:var(--accent);}
+.hero-title{font-family:var(--font-d);font-size:clamp(5rem,9vw,10rem);line-height:.88;letter-spacing:.02em;margin-bottom:28px;animation:fadeUp .8s cubic-bezier(.16,1,.3,1) both;}
+.hero-title .acc{color:var(--accent);}
+.hero-title .strk{-webkit-text-stroke:1px var(--text);color:transparent;}
+.hero-desc{font-size:.98rem;line-height:1.75;color:var(--muted);max-width:380px;margin-bottom:44px;animation:fadeUp .8s .15s cubic-bezier(.16,1,.3,1) both;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s cubic-bezier(.16,1,.3,1) both;}
+.hero-stats{margin-top:60px;display:flex;gap:36px;animation:fadeUp .8s .45s cubic-bezier(.16,1,.3,1) both;}
+.h-stat-n{font-family:var(--font-d);font-size:2.6rem;color:var(--accent);display:block;}
+.h-stat-l{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.hero-right{position:relative;overflow:hidden;background:linear-gradient(135deg,#111 0%,#191900 100%);}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 55% 50%,rgba(232,255,0,.12),transparent);}
+.hero-shoe{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18rem;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 20px 60px rgba(232,255,0,.18));}
+.hero-badge{position:absolute;bottom:80px;right:44px;width:96px;height:96px;border:1px solid var(--border);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:spin 16s linear infinite;}
+.hero-badge span{font-family:var(--font-c);font-size:.45rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.7;}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-family:var(--font-c);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;z-index:10;animation:bob 2s ease-in-out infinite;}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--muted),transparent);}
+/* ── FEATURED ── */
+#featured{padding:110px 48px;}
+.sec-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;}
+.view-all{font-family:var(--font-c);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color .2s;white-space:nowrap;margin-bottom:4px;}
+.view-all:hover{color:var(--accent);}
+.view-all::after{content:'→';}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;}
+/* ── BANNER ── */
+#banner{margin:0 48px;background:linear-gradient(135deg,#0f0f00,#1a1a00);border:1px solid var(--border);padding:72px 80px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;}
+#banner::before{content:'';position:absolute;right:-8%;top:-40%;width:500px;height:500px;background:radial-gradient(circle,rgba(232,255,0,.07),transparent 70%);pointer-events:none;}
+.banner-tag{display:inline-block;font-family:var(--font-c);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;padding:5px 12px;background:var(--accent2);color:#fff;font-weight:700;margin-bottom:20px;}
+.banner-title{font-family:var(--font-d);font-size:clamp(3rem,5vw,5.5rem);line-height:.92;letter-spacing:.02em;margin-bottom:18px;}
+.banner-title .acc{color:var(--accent);}
+.banner-desc{color:var(--muted);font-size:.95rem;line-height:1.7;margin-bottom:32px;max-width:400px;}
+.banner-shoe{font-size:13rem;opacity:.85;filter:drop-shadow(0 0 50px rgba(232,255,0,.2));}
+/* ── CATEGORIES ── */
+#cats{padding:110px 48px;}
+.cats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
+.cat-card{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--surface);}
+.cat-card:first-child{grid-row:span 2;aspect-ratio:auto;}
+.cat-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9rem;opacity:.25;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .3s;}
+.cat-card:hover .cat-bg{transform:scale(1.1);opacity:.45;}
+.cat-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 55%);}
+.cat-info{position:absolute;bottom:0;left:0;right:0;padding:28px;}
+.cat-name{font-family:var(--font-d);font-size:2.2rem;margin-bottom:6px;}
+.cat-cnt{font-family:var(--font-c);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.cat-arr{position:absolute;top:20px;right:20px;width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .2s;}
+.cat-card:hover .cat-arr{background:var(--accent);color:#000;border-color:var(--accent);}
+/* ── TESTIMONIALS ── */
+#testi{padding:110px 48px;background:var(--surface);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
+.testi-card{padding:36px;border:1px solid var(--border);position:relative;}
+.testi-stars{color:var(--accent);font-size:1rem;margin-bottom:16px;letter-spacing:3px;}
+.testi-text{font-size:.92rem;line-height:1.75;color:var(--muted);margin-bottom:24px;font-style:italic;}
+.testi-name{font-family:var(--font-c);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;}
+.testi-product{font-size:.75rem;color:var(--muted);}
+/* ── NEWSLETTER ── */
+#nl{padding:110px 48px;text-align:center;}
+.nl-title{font-family:var(--font-d);font-size:clamp(3.5rem,6vw,7rem);line-height:.88;letter-spacing:.02em;margin-bottom:20px;}
+.nl-title .strk{-webkit-text-stroke:1px var(--text);color:transparent;}
+.nl-desc{color:var(--muted);font-size:.95rem;margin-bottom:44px;max-width:380px;margin-left:auto;margin-right:auto;}
+.nl-form{display:flex;max-width:460px;margin:0 auto;}
+.nl-input{flex:1;padding:15px 22px;background:var(--surface);border:1px solid var(--border);border-right:none;color:var(--text);font-family:var(--font-b);font-size:.92rem;outline:none;transition:border-color .2s;}
+.nl-input:focus{border-color:var(--accent);}
+.nl-input::placeholder{color:var(--muted);}
+.nl-btn{font-family:var(--font-c);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;padding:15px 30px;background:var(--accent);color:#000;border:1px solid var(--accent);font-weight:700;transition:all .2s;}
+.nl-btn:hover{background:#fff;border-color:#fff;}
+/* ── SIZE MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:900;opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:center;justify-content:center;}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);width:480px;max-width:96vw;padding:36px;position:relative;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:1.2rem;transition:color .2s;}
+.modal-close:hover{color:var(--text);}
+.modal-title{font-family:var(--font-c);font-size:1.1rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.modal-prod{color:var(--muted);font-size:.88rem;margin-bottom:24px;}
+.modal-sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;}
+.sz-btn{width:52px;height:44px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--font-c);font-size:.82rem;letter-spacing:.08em;transition:all .2s;}
+.sz-btn:hover,.sz-btn.sel{background:var(--accent);color:#000;border-color:var(--accent);}
+.modal-add{width:100%;padding:14px;background:var(--accent);color:#000;border:none;font-family:var(--font-c);font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;transition:background .2s;}
+.modal-add:hover{background:#fff;}
+/* ── RESPONSIVE ── */
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-left{padding:120px 20px 80px;}
+  #featured,#cats,#testi,#nl{padding:80px 20px;}
+  #banner{margin:0 20px;padding:48px 28px;flex-direction:column;gap:28px;}
+  .cats-grid{grid-template-columns:1fr 1fr;}
+  .cat-card:first-child{grid-row:auto;grid-column:span 2;}
+  .testi-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curR"></div>
+
+<!-- NAV -->
+<nav class="g-nav">
+  <a href="index.html" class="g-nav-logo">STRY<span>D</span>E</a>
+  <ul class="g-nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html?cat=Men">Men</a></li>
+    <li><a href="shop.html?cat=Women">Women</a></li>
+    <li><a href="shop.html?sale=1">Sale</a></li>
+  </ul>
+  <div class="g-nav-right">
+    <button class="g-nav-icon" onclick="goPage('wishlist.html')">♡</button>
+    <button class="g-nav-icon" onclick="openCart()" style="position:relative">
+      🛒<span class="cart-badge" id="cb1">0</span>
+    </button>
+    <button class="g-nav-cta" onclick="goPage('shop.html')">Shop Now</button>
+  </div>
+</nav>
+
+<!-- CART -->
+<div class="cart-mask" id="cmask" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cdrawer">
+  <div class="cd-head">
+    <span class="cd-title">Cart (<span id="cdCount">0</span>)</span>
+    <button class="cd-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cd-items" id="cdItems"></div>
+  <div class="cd-foot" id="cdFoot" style="display:none">
+    <div class="cd-total-row"><span class="cd-total-label">Total</span><span class="cd-total-val" id="cdTotal">$0</span></div>
+    <button class="cd-checkout" onclick="goPage('checkout.html')">Checkout →</button>
+    <button class="cd-continue" onclick="closeCart()">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- SIZE MODAL -->
+<div class="modal-bg" id="sizeModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <p class="modal-title">Select Size</p>
+    <p class="modal-prod" id="modalProd">—</p>
+    <div class="modal-sizes" id="modalSizes"></div>
+    <button class="modal-add" onclick="confirmAddToCart()">Add to Cart</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-label">New Collection 2026</p>
+    <h1 class="hero-title">MOVE<br><span class="strk">FAST</span><br><span class="acc">LIVE</span><br>LOUD</h1>
+    <p class="hero-desc">Engineered for the relentless. Premium materials, performance-driven design, every step counts.</p>
+    <div class="hero-btns">
+      <a href="shop.html" class="btn-primary">Shop Collection</a>
+      <a href="shop.html" class="btn-outline">Explore All</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="h-stat-n">200+</span><span class="h-stat-l">Styles</span></div>
+      <div><span class="h-stat-n">50K+</span><span class="h-stat-l">Happy Feet</span></div>
+      <div><span class="h-stat-n">4.9★</span><span class="h-stat-l">Rating</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-glow"></div>
+    <div class="hero-shoe">👟</div>
+    <div class="hero-badge"><span>NEW DROP<br>SS 2026<br>STRYDE</span></div>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="hero-scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="mtrack"></div>
+</div>
+
+<!-- FEATURED -->
+<section id="featured">
+  <div class="sec-hdr">
+    <div><p class="sec-label">Latest Drops</p><h2 class="sec-title">NEW<br>ARRIVALS</h2></div>
+    <a href="shop.html" class="view-all">View All</a>
+  </div>
+  <div class="products-grid" id="pg"></div>
+</section>
+
+<!-- BANNER -->
+<div id="banner">
+  <div>
+    <span class="banner-tag">🔥 Limited Time</span>
+    <h2 class="banner-title">UP TO<br><span class="acc">40% OFF</span><br>SALE</h2>
+    <p class="banner-desc">Grab your favourites before they're gone. Select styles limited time only.</p>
+    <a href="shop.html?sale=1" class="btn-primary">Shop the Sale</a>
+  </div>
+  <div class="banner-shoe">👠</div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="cats">
+  <div class="sec-hdr">
+    <div><p class="sec-label">Browse by Style</p><h2 class="sec-title">SHOP BY<br>CATEGORY</h2></div>
+  </div>
+  <div class="cats-grid" id="cg"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testi">
+  <div class="sec-hdr">
+    <div><p class="sec-label">Real Reviews</p><h2 class="sec-title">WHAT THEY<br>SAY</h2></div>
+  </div>
+  <div class="testi-grid" id="tg"></div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="nl">
+  <p class="sec-label">Stay Updated</p>
+  <h2 class="nl-title">DROP<br><span class="strk">ALERTS</span></h2>
+  <p class="nl-desc">Be first to know about new drops, exclusive restocks, and members-only deals.</p>
+  <div class="nl-form">
+    <input class="nl-input" id="nlemail" type="email" placeholder="Your email address"/>
+    <button class="nl-btn" onclick="subscribe()">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="g-footer">
+  <div class="g-footer-top">
+    <div>
+      <a href="index.html" class="g-footer-logo">STRY<span>D</span>E</a>
+      <p class="g-footer-tagline">Built for those who move with purpose. Premium footwear for every pace, every place.</p>
+      <div class="g-footer-socials">
+        <a href="#" class="g-social">𝕏</a><a href="#" class="g-social">IG</a><a href="#" class="g-social">YT</a><a href="#" class="g-social">TK</a>
+      </div>
+    </div>
+    <div><p class="g-fcol-title">Shop</p><ul class="g-fcol-links"><li><a href="shop.html">New Arrivals</a></li><li><a href="shop.html?cat=Running">Men's</a></li><li><a href="shop.html?cat=Casual">Women's</a></li><li><a href="shop.html?sale=1">Sale</a></li></ul></div>
+    <div><p class="g-fcol-title">Help</p><ul class="g-fcol-links"><li><a href="#">Size Guide</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">FAQ</a></li></ul></div>
+    <div><p class="g-fcol-title">Company</p><ul class="g-fcol-links"><li><a href="#">About</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul></div>
+  </div>
+  <div class="g-footer-bottom">
+    <p class="g-copy">© 2026 STRYDE. All rights reserved.</p>
+    <div class="g-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+// ── DATA ──────────────────────────────────
+const TESTIMONIALS = [
+  { stars:5, text:'"The Apex Runner X changed my morning runs completely. The cushioning is next level — I feel like I\'m barely touching the ground."', name:'Jordan M.', product:'Apex Runner X' },
+  { stars:5, text:'"Storm Force Hi gives me the ankle support I\'ve always needed on the court. Zero slipping, maximum confidence."', name:'Priya S.', product:'Storm Force Hi' },
+  { stars:4, text:'"Urban Glide 2 is my go-to for everything. Office, weekend, evenings — it just works with everything I own."', name:'Carlos R.', product:'Urban Glide 2' },
+];
+
+// ── MODAL STATE ───────────────────────────
+let modalProductId = null, selectedSize = null;
+
+function openSizeModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  modalProductId = id; selectedSize = null;
+  document.getElementById('modalProd').textContent = p.name;
+  document.getElementById('modalSizes').innerHTML = p.sizes.map(s =>
+    `<button class="sz-btn" onclick="selectSize(${s},this)">UK ${s}</button>`
+  ).join('');
+  document.getElementById('sizeModal').classList.add('open');
+}
+function selectSize(s, el) {
+  selectedSize = s;
+  document.querySelectorAll('.sz-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function closeModal() { document.getElementById('sizeModal').classList.remove('open'); }
+function confirmAddToCart() {
+  if (!selectedSize) { showToast('Please select a size!','error'); return; }
+  STORE.addToCart(modalProductId, 'UK ' + selectedSize);
+  closeModal();
+  renderCart();
+  showToast('Added to cart! 👟');
+}
+
+// ── CART ──────────────────────────────────
+function openCart() { document.getElementById('cdrawer').classList.add('open'); document.getElementById('cmask').classList.add('open'); renderCart(); }
+function closeCart() { document.getElementById('cdrawer').classList.remove('open'); document.getElementById('cmask').classList.remove('open'); }
+function renderCart() {
+  const items = STORE.cart;
+  const el = document.getElementById('cdItems');
+  const foot = document.getElementById('cdFoot');
+  document.getElementById('cdCount').textContent = STORE.cartCount();
+  document.getElementById('cdTotal').textContent = '$' + STORE.cartTotal().toLocaleString();
+  updateCartBadge();
+  if (!items.length) {
+    el.innerHTML = '<div class="cd-empty"><div class="cd-empty-icon">👟</div><p>Your cart is empty</p></div>';
+    foot.style.display = 'none'; return;
+  }
+  foot.style.display = 'block';
+  el.innerHTML = items.map(i => `
+    <div class="cd-item">
+      <div class="cd-item-img">${i.emoji}</div>
+      <div class="cd-item-info">
+        <p class="cd-item-name">${i.name}</p>
+        <p class="cd-item-meta">Size: ${i.size}</p>
+        <div class="cd-item-row">
+          <span class="cd-item-price">$${i.price * i.qty}</span>
+          <div class="cd-qty">
+            <button onclick="qtyChange('${i.key}',-1)">−</button>
+            <span>${i.qty}</span>
+            <button onclick="qtyChange('${i.key}',1)">+</button>
+          </div>
+        </div>
+        <button class="cd-remove" onclick="removeItem('${i.key}')">Remove</button>
+      </div>
+    </div>`).join('');
+}
+function qtyChange(key, d) { STORE.updateQty(key, d); renderCart(); }
+function removeItem(key) { STORE.removeFromCart(key); renderCart(); }
+
+// ── RENDER PRODUCTS ───────────────────────
+function renderProducts() {
+  const featured = PRODUCTS.slice(0,8);
+  document.getElementById('pg').innerHTML = featured.map(p => `
+    <div class="p-card reveal">
+      <div class="p-img-wrap"><div class="p-img">${p.emoji}</div></div>
+      ${p.tag ? `<span class="p-tag tag-${p.tag}">${p.tag==='new'?'New':p.tag==='hot'?'🔥 Hot':'Sale'}</span>` : ''}
+      <button class="p-wishlist-btn ${STORE.isWishlisted(p.id)?'active':''}" onclick="toggleWish(${p.id},this)">♡</button>
+      <div class="p-overlay">
+        <button class="p-quick-add" onclick="openSizeModal(${p.id})">Quick Add</button>
+        <a href="product.html?id=${p.id}" style="font-family:var(--font-c);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:#fff;text-decoration:none;opacity:.7;margin-top:4px;">View Details →</a>
+      </div>
+      <div class="p-info">
+        <p class="p-cat">${p.category}</p>
+        <p class="p-name"><a href="product.html?id=${p.id}" style="color:inherit;">${p.name}</a></p>
+        <div class="p-footer">
+          <div class="p-price">${p.oldPrice?`<span class="p-old">$${p.oldPrice}</span>`:''} $${p.price}</div>
+          <div class="p-dots">${p.colors.map(c=>`<div class="p-dot" style="background:${c}"></div>`).join('')}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER CATEGORIES ─────────────────────
+function renderCats() {
+  document.getElementById('cg').innerHTML = CATEGORIES.map(c => `
+    <div class="cat-card reveal" onclick="goPage('shop.html?cat=${c.name}')" style="background:${c.bg}">
+      <div class="cat-bg">${c.emoji}</div>
+      <div class="cat-grad"></div>
+      <span class="cat-arr">↗</span>
+      <div class="cat-info">
+        <p class="cat-name">${c.name}</p>
+        <p class="cat-cnt">${c.count} Styles</p>
+      </div>
+    </div>`).join('');
+}
+
+// ── TESTIMONIALS ──────────────────────────
+function renderTesti() {
+  document.getElementById('tg').innerHTML = TESTIMONIALS.map(t => `
+    <div class="testi-card reveal">
+      <div class="testi-stars">${'★'.repeat(t.stars)}</div>
+      <p class="testi-text">${t.text}</p>
+      <p class="testi-name">${t.name}</p>
+      <p class="testi-product">${t.product}</p>
+    </div>`).join('');
+}
+
+// ── MARQUEE ───────────────────────────────
+function renderMarquee() {
+  const items = ['Free Shipping Over $100','New Drop Every Week','Easy Returns','Premium Materials','50K+ Happy Customers','SS 2026 Now Live'];
+  const d = [...items,...items];
+  document.getElementById('mtrack').innerHTML = d.map(t => `<span class="marquee-item">${t}<span class="marquee-dot"></span></span>`).join('');
+}
+
+// ── MISC ──────────────────────────────────
+function toggleWish(id, btn) {
+  STORE.toggleWishlist(id);
+  btn.classList.toggle('active');
+  showToast(STORE.isWishlisted(id) ? 'Added to wishlist ♡' : 'Removed from wishlist');
+}
+function subscribe() {
+  const e = document.getElementById('nlemail').value.trim();
+  if (!e || !e.includes('@')) { showToast('Enter a valid email!','error'); return; }
+  document.getElementById('nlemail').value = '';
+  showToast('Subscribed! Welcome to STRYDE 🎉');
+}
+function goPage(url) { window.location.href = url; }
+
+// ── CURSOR ────────────────────────────────
+const cur = document.getElementById('cur'), curR = document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function loop(){ cur.style.left=mx+'px'; cur.style.top=my+'px'; rx+=(mx-rx)*.12; ry+=(my-ry)*.12; curR.style.left=rx+'px'; curR.style.top=ry+'px'; requestAnimationFrame(loop); })();
+document.addEventListener('mouseover', e => { if(e.target.matches('a,button,.cat-card,.p-card')) curR.classList.add('hov'); else curR.classList.remove('hov'); });
+
+// ── REVEAL ────────────────────────────────
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.08});
+function observeReveal() { document.querySelectorAll('.reveal').forEach(el => obs.observe(el)); }
+
+// ── INIT ──────────────────────────────────
+renderProducts(); renderCats(); renderTesti(); renderMarquee();
+observeReveal(); updateCartBadge();
+</script>
+</body>
+</html>
